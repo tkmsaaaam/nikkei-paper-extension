@@ -22,7 +22,7 @@
 			if (!articleTitle) {
 				continue;
 			}
-      console.log(rawArticle);
+			console.log(rawArticle);
 			let mark = '';
 			if (rawArticle.href.match(id)) {
 				mark = '==';
