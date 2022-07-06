@@ -2,6 +2,7 @@
   "manifest_version": 3,
   "version": "1.0",
   "name": "nikkei-paper-extension",
+  "permissions": ["tabs"],
   "action": {
     "default_title": "日経の記事を取得",
     "default_popup": "src/articles.html"
