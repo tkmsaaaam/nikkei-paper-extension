@@ -1,13 +1,16 @@
 (async () => {
 	try {
+		var id = ''
+		chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+			const params = new URLSearchParams(tabs[0].url);
+			id = params.get('ng');
+		});
 		const url = `https://www.nikkei.com/paper/`;
 		const res = await fetch(url).then(response => response.text());
 		let html = '';
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(res, 'text/html');
 		const articles = doc.getElementsByClassName('cmn-article_title');
-		const params = new URLSearchParams(location.search);
-		const id = params.get('ng');
 		for (let l = 0; l < articles.length; l++) {
 			const articlesElement = articles[l];
 			const rawArticle = articlesElement
@@ -28,7 +31,7 @@
 			}
 			html += `<a href=${rawArticle.href}>${mark}${articleTitle.substr(
 				0,
-				18
+				16
 			)}${mark}</a><br>`;
 		}
 		document.getElementById('articles').insertAdjacentHTML('afterbegin', html);
