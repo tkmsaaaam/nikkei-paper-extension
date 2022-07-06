@@ -1,4 +1,4 @@
-async function  getArticles() {
+(async () => {
 	try {
 		const url = `https://www.nikkei.com/paper/`;
 		const res = await fetch(url).then(response => response.text());
@@ -38,5 +38,4 @@ async function  getArticles() {
 		console.log(e);
 		alert(e);
 	}
-};
-getArticles();
+})();
