@@ -1,4 +1,4 @@
-document.addEventListener('click', function (e) {
+document.addEventListener('click', (e)  => {
 	e.preventDefault();
 	rawHref = e.target.href;
 	host = 'https://www.nikkei.com/';
