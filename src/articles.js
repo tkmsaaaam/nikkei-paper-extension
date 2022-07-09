@@ -64,12 +64,41 @@ const insertMark = id => {
 	}
 };
 
+const removeMark = () => {
+	const mark = document.getElementById('marked');
+	if (mark) {
+		mark.remove();
+	}
+};
+
+const transition = url => {
+	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+		chrome.tabs.update(tabs[0].id, { url: url });
+	});
+};
+
+const manageTransition = () => {
+	document.addEventListener('click', e => {
+		e.preventDefault();
+		const rawHref = e.target.href;
+		const host = 'https://www.nikkei.com/';
+		const path = rawHref.substr(rawHref.indexOf('/paper/article/'));
+		const url = host + path;
+		removeMark();
+		transition(url);
+		const params = new URLSearchParams(url);
+		id = params.get('ng');
+		insertMark(id);
+	});
+};
+
 (async () => {
 	try {
 		const articleList = await getArticles();
 		const html = createHtml(articleList);
 		insertHtml(html);
 		createMark();
+		manageTransition();
 		return;
 	} catch (e) {
 		console.log(e);
