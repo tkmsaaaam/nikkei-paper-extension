@@ -74,7 +74,7 @@ const transition = url => {
 const transitUrl = e => {
 	const rawHref = e.target.href;
 	if (!rawHref) return;
-	const host = 'https://www.nikkei.com/';
+	const host = 'https://www.nikkei.com';
 	const path = rawHref.substr(rawHref.indexOf('/paper/article/'));
 	const url = host + path;
 	removeMark();
