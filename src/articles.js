@@ -84,6 +84,12 @@ const transitUrl = e => {
 	insertMark(id);
 };
 
+const removeArtilces = () => {
+	const artilcesHtml = document.getElementById('articles');
+	artilcesHtml.insertAdjacentHTML('afterend', '<div id="articles"></div>')
+	artilcesHtml.remove();
+};
+
 const renderArticles = async (target) => {
 	let param = '';
 	if (target.className) param = target.className;
@@ -97,6 +103,7 @@ const manageClick = () => {
 	document.addEventListener('click', e => {
 		e.preventDefault();
 		if (e.target.id === 'getArticles') {
+			removeArtilces();
 			renderArticles(e.target);
 		} else {
 			transitUrl(e);
