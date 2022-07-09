@@ -81,6 +81,7 @@ const manageTransition = () => {
 	document.addEventListener('click', e => {
 		e.preventDefault();
 		const rawHref = e.target.href;
+		if (!rawHref) return;
 		const host = 'https://www.nikkei.com/';
 		const path = rawHref.substr(rawHref.indexOf('/paper/article/'));
 		const url = host + path;
