@@ -86,11 +86,11 @@ const transitUrl = e => {
 
 const removeArtilces = () => {
 	const artilcesHtml = document.getElementById('articles');
-	artilcesHtml.insertAdjacentHTML('afterend', '<div id="articles"></div>')
+	artilcesHtml.insertAdjacentHTML('afterend', '<div id="articles"></div>');
 	artilcesHtml.remove();
 };
 
-const renderArticles = async (target) => {
+const renderArticles = async target => {
 	let param = '';
 	if (target.className) param = target.className;
 	const articleList = await getArticles(param);
