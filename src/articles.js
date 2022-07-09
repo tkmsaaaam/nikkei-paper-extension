@@ -5,8 +5,8 @@ const createMark = () => {
 	});
 };
 
-const getArticles = async () => {
-	const url = `https://www.nikkei.com/paper/`;
+const getArticles = async param => {
+	const url = `https://www.nikkei.com/paper/` + param;
 	const res = await fetch(url).then(response => response.text());
 	const articleList = [];
 	const parser = new DOMParser();
@@ -84,8 +84,10 @@ const transitUrl = e => {
 	insertMark(id);
 };
 
-const renderArticles = async () => {
-	const articleList = await getArticles();
+const renderArticles = async (target) => {
+	let param = '';
+	if (target.className) param = target.className;
+	const articleList = await getArticles(param);
 	const html = createHtml(articleList);
 	insertHtml(html);
 	createMark();
@@ -95,7 +97,7 @@ const manageClick = () => {
 	document.addEventListener('click', e => {
 		e.preventDefault();
 		if (e.target.id === 'getArticles') {
-			renderArticles();
+			renderArticles(e.target);
 		} else {
 			transitUrl(e);
 		}
