@@ -98,7 +98,7 @@ const manageClick = () => {
 			renderArticles();
 		} else {
 			transitUrl(e);
-		};
+		}
 	});
 };
 
