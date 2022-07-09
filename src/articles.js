@@ -17,15 +17,11 @@ const getArticles = async () => {
 		const rawArticle = articlesElement
 			.getElementsByTagName('span')[0]
 			.getElementsByTagName('a')[0];
-		if (!rawArticle) {
-			continue;
-		}
+		if (!rawArticle) continue;
 		const articleTitle = rawArticle
 			.getElementsByTagName('span')[0]
 			.getElementsByTagName('span')[0].textContent;
-		if (!articleTitle) {
-			continue;
-		}
+		if (!articleTitle) continue;
 		let article = {};
 		article.href = rawArticle.href;
 		article.title = articleTitle.substr(0, 16);
@@ -66,9 +62,7 @@ const insertMark = id => {
 
 const removeMark = () => {
 	const mark = document.getElementById('marked');
-	if (mark) {
-		mark.remove();
-	}
+	if (mark) mark.remove();
 };
 
 const transition = url => {
