@@ -1,6 +1,6 @@
 (async () => {
 	try {
-		var id = ''
+		var id = '';
 		chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
 			const params = new URLSearchParams(tabs[0].url);
 			id = params.get('ng');
