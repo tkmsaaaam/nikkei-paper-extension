@@ -84,19 +84,26 @@ const transitUrl = e => {
 	insertMark(id);
 };
 
+const renderArticles = async () => {
+	const articleList = await getArticles();
+	const html = createHtml(articleList);
+	insertHtml(html);
+	createMark();
+};
+
 const manageClick = () => {
 	document.addEventListener('click', e => {
 		e.preventDefault();
-		transitUrl(e);
+		if (e.target.id === 'getArticles') {
+			renderArticles();
+		} else {
+			transitUrl(e);
+		};
 	});
 };
 
-(async () => {
+(() => {
 	try {
-		const articleList = await getArticles();
-		const html = createHtml(articleList);
-		insertHtml(html);
-		createMark();
 		manageClick();
 		return;
 	} catch (e) {
