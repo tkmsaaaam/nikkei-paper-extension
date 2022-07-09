@@ -1,40 +1,75 @@
+const createMark = () => {
+	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+		const params = new URLSearchParams(tabs[0].url);
+		insertMark(params.get('ng'));
+	});
+};
+
+const getArticles = async () => {
+	const url = `https://www.nikkei.com/paper/`;
+	const res = await fetch(url).then(response => response.text());
+	const articleList = [];
+	const parser = new DOMParser();
+	const doc = parser.parseFromString(res, 'text/html');
+	const articles = doc.getElementsByClassName('cmn-article_title');
+	for (let l = 0; l < articles.length; l++) {
+		const articlesElement = articles[l];
+		const rawArticle = articlesElement
+			.getElementsByTagName('span')[0]
+			.getElementsByTagName('a')[0];
+		if (!rawArticle) {
+			continue;
+		}
+		const articleTitle = rawArticle
+			.getElementsByTagName('span')[0]
+			.getElementsByTagName('span')[0].textContent;
+		if (!articleTitle) {
+			continue;
+		}
+		let article = {};
+		article.href = rawArticle.href;
+		article.title = articleTitle.substr(0, 16);
+		articleList.push(article);
+	}
+	return articleList;
+};
+
+const createHtml = articleList => {
+	let html = '';
+	for (let i = 0; i < articleList.length; i++) {
+		const article = articleList[i];
+		html += `<a href=${article.href}>${article.title.substr(0, 16)}</a><br>`;
+	}
+	return html;
+};
+
+const insertHtml = html => {
+	document.getElementById('articles').insertAdjacentHTML('afterbegin', html);
+};
+
+const insertMark = id => {
+	const articlesHtml = document
+		.getElementById('articles')
+		.getElementsByTagName('a');
+	for (let i = 0; i < articlesHtml.length; i++) {
+		const articleHtml = articlesHtml[i];
+		const href = new URLSearchParams(articleHtml.href);
+		const ng = href.get('ng');
+		if (ng === id) {
+			return articleHtml.insertAdjacentHTML(
+				'beforebegin',
+				'<a id="marked">=></a>'
+			);
+		}
+	}
+};
+
 (async () => {
 	try {
-		var id = '';
-		chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-			const params = new URLSearchParams(tabs[0].url);
-			id = params.get('ng');
-		});
-		const url = `https://www.nikkei.com/paper/`;
-		const res = await fetch(url).then(response => response.text());
-		let html = '';
-		const parser = new DOMParser();
-		const doc = parser.parseFromString(res, 'text/html');
-		const articles = doc.getElementsByClassName('cmn-article_title');
-		for (let l = 0; l < articles.length; l++) {
-			const articlesElement = articles[l];
-			const rawArticle = articlesElement
-				.getElementsByTagName('span')[0]
-				.getElementsByTagName('a')[0];
-			if (!rawArticle) {
-				continue;
-			}
-			const articleTitle = rawArticle
-				.getElementsByTagName('span')[0]
-				.getElementsByTagName('span')[0].textContent;
-			if (!articleTitle) {
-				continue;
-			}
-			let mark = '';
-			if (rawArticle.href.match(id)) {
-				mark = '==';
-			}
-			html += `<a href=${rawArticle.href}>${mark}${articleTitle.substr(
-				0,
-				16
-			)}${mark}</a><br>`;
-		}
-		document.getElementById('articles').insertAdjacentHTML('afterbegin', html);
+		const articleList = await getArticles();
+		const html = createHtml(articleList);
+		insertHtml(html);
+		createMark();
 		return;
 	} catch (e) {
 		console.log(e);
