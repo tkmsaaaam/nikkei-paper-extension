@@ -71,8 +71,8 @@ const transition = url => {
 	});
 };
 
-const transitUrl = e => {
-	const rawHref = e.target.href;
+const transitUrl = target => {
+	const rawHref = target.href;
 	if (!rawHref) return;
 	const host = 'https://www.nikkei.com';
 	const path = rawHref.substr(rawHref.indexOf('/paper/article/'));
@@ -99,14 +99,23 @@ const renderArticles = async target => {
 	createMark();
 };
 
+const transitNextArticle = () => {
+	const nextArticle =
+		document.getElementById('marked').nextElementSibling.nextElementSibling
+			.nextElementSibling;
+	transitUrl(nextArticle);
+};
+
 const manageClick = () => {
 	document.addEventListener('click', e => {
 		e.preventDefault();
 		if (e.target.id === 'getArticles') {
 			removeArtilces();
 			renderArticles(e.target);
+		} else if (e.target.id === 'nextArticle') {
+			transitNextArticle();
 		} else {
-			transitUrl(e);
+			transitUrl(e.target);
 		}
 	});
 };
