@@ -114,7 +114,7 @@ const manageClick = () => {
 		e.preventDefault();
 		if (e.target.id === 'getArticles') {
 			let param = '';
-			if (target.className) param = target.className;
+			if (e.target.className) param = e.target.className;
 			removeArtilces();
 			renderArticles(param);
 		} else if (e.target.id === 'nextArticle') {
