@@ -5,12 +5,8 @@ const createMark = () => {
 	});
 };
 
-const getArticles = async param => {
-	const url = `https://www.nikkei.com/paper/` + param;
-	const res = await fetch(url).then(response => response.text());
+const createArticlesList = doc => {
 	const articleList = [];
-	const parser = new DOMParser();
-	const doc = parser.parseFromString(res, 'text/html');
 	const articles = doc.getElementsByClassName('cmn-article_title');
 	for (let l = 0; l < articles.length; l++) {
 		const articlesElement = articles[l];
@@ -28,6 +24,14 @@ const getArticles = async param => {
 		articleList.push(article);
 	}
 	return articleList;
+};
+
+const getArticles = async param => {
+	const url = `https://www.nikkei.com/paper/` + param;
+	const res = await fetch(url).then(response => response.text());
+	const parser = new DOMParser();
+	const doc = parser.parseFromString(res, 'text/html');
+	return createArticlesList(doc);
 };
 
 const createHtml = articleList => {
@@ -90,9 +94,7 @@ const removeArtilces = () => {
 	artilcesHtml.remove();
 };
 
-const renderArticles = async target => {
-	let param = '';
-	if (target.className) param = target.className;
+const renderArticles = async param => {
 	const articleList = await getArticles(param);
 	const html = createHtml(articleList);
 	insertHtml(html);
@@ -111,8 +113,10 @@ const manageClick = () => {
 	document.addEventListener('click', e => {
 		e.preventDefault();
 		if (e.target.id === 'getArticles') {
+			let param = '';
+			if (target.className) param = target.className;
 			removeArtilces();
-			renderArticles(e.target);
+			renderArticles(param);
 		} else if (e.target.id === 'nextArticle') {
 			transitNextArticle();
 		} else {
@@ -121,9 +125,23 @@ const manageClick = () => {
 	});
 };
 
+const checkCurrentPage = () => {
+	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+		const articlesUrl = 'https://www.nikkei.com/paper/';
+		const url = tabs[0].url
+		if (!url.startsWith(articlesUrl)) {
+			return;
+		} else {
+			const param = url.replace(articlesUrl, '').substr(0, 7);
+			renderArticles(param);
+		};
+	});
+}
+
 (() => {
 	try {
 		manageClick();
+		checkCurrentPage();
 		return;
 	} catch (e) {
 		console.log(e);
