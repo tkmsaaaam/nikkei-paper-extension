@@ -103,7 +103,7 @@ const renderArticles = async param => {
 
 const transitNextArticle = () => {
 	const currentArticle = document.getElementById('marked');
-	if (!currentArticle) return;
+	if (!currentArticle) renderArticles('');
 	const nextArticle =
 		currentArticle.nextElementSibling.nextElementSibling.nextElementSibling;
 	transitUrl(nextArticle);
