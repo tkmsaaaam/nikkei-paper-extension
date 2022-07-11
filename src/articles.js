@@ -100,9 +100,10 @@ const renderArticles = async target => {
 };
 
 const transitNextArticle = () => {
+	const currentArticle = document.getElementById('marked');
+	if (!currentArticle) return;
 	const nextArticle =
-		document.getElementById('marked').nextElementSibling.nextElementSibling
-			.nextElementSibling;
+		currentArticle.nextElementSibling.nextElementSibling.nextElementSibling;
 	transitUrl(nextArticle);
 };
 
