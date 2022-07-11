@@ -128,15 +128,15 @@ const manageClick = () => {
 const checkCurrentPage = () => {
 	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
 		const articlesUrl = 'https://www.nikkei.com/paper/';
-		const url = tabs[0].url
+		const url = tabs[0].url;
 		if (!url.startsWith(articlesUrl)) {
 			return;
 		} else {
 			const param = url.replace(articlesUrl, '').substr(0, 7);
 			renderArticles(param);
-		};
+		}
 	});
-}
+};
 
 (() => {
 	try {
