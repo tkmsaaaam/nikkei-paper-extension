@@ -72,6 +72,19 @@ const removeMark = () => {
 const transition = url => {
 	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
 		chrome.tabs.update(tabs[0].id, { url: url });
+		chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+			if (changeInfo.status === 'complete') {
+				chrome.scripting.executeScript({
+					target: { tabId },
+					func: () => {
+						window.scroll({
+							top: 300,
+							behavior: 'smooth',
+						});
+					},
+				});
+			}
+		});
 	});
 };
 
