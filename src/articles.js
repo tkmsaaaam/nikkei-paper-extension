@@ -5,6 +5,18 @@ const createMark = () => {
 	});
 };
 
+const disableButton = param => {
+	const buttons = document.getElementsByTagName('button');
+	for (let i = 0; i < buttons.length; i++) {
+		buttons[i].disabled = false;
+	}
+	if (param !== '') {
+		document.getElementsByClassName(param)[0].disabled = true;
+	} else {
+		document.getElementById('getArticles').disabled = true;
+	}
+};
+
 const createArticlesList = doc => {
 	const articleList = [];
 	const articles = doc.getElementsByClassName('cmn-article_title');
@@ -32,6 +44,7 @@ const getArticles = async param => {
 	const res = await fetch(url).then(response => response.text());
 	const parser = new DOMParser();
 	const doc = parser.parseFromString(res, 'text/html');
+	disableButton(param);
 	return createArticlesList(doc);
 };
 
