@@ -56,10 +56,14 @@ const insertMark = id => {
 		const href = new URLSearchParams(articleHtml.href);
 		const ng = href.get('ng');
 		if (ng === id) {
-			return articleHtml.insertAdjacentHTML(
-				'beforebegin',
-				'<a id="marked">=></a>'
-			);
+			articleHtml.insertAdjacentHTML('beforebegin', '<a id="marked">=></a>');
+			const height = articleHtml.getBoundingClientRect().top - 85;
+			console.log(height);
+			window.scroll({
+				top: height,
+				behavior: 'smooth',
+			});
+			return;
 		}
 	}
 };
