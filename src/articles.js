@@ -106,6 +106,7 @@ const removeArtilces = () => {
 };
 
 const renderArticles = async param => {
+	if (param == 'morning' || param == 'evening') return;
 	const articleList = await getArticles(param);
 	const html = createHtml(articleList);
 	insertHtml(html);
