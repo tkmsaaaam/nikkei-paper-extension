@@ -57,12 +57,6 @@ const insertMark = id => {
 		const ng = href.get('ng');
 		if (ng === id) {
 			articleHtml.insertAdjacentHTML('beforebegin', '<a id="marked">=></a>');
-			const height = articleHtml.getBoundingClientRect().top - 85;
-			console.log(height);
-			window.scroll({
-				top: height,
-				behavior: 'smooth',
-			});
 			return;
 		}
 	}
