@@ -10,15 +10,26 @@
       a {
         font-size: 130%;
       }
+      .bar {
+        position: fixed;
+        background-color: white;
+        width: 100%;
+        top: 0px;
+      }
+      .articles {
+        padding-top: 85px;
+      }
     </style>
   </head>
   <body>
-    <h2>記事一覧</h2>
-    <script src="articles.js"></script>
-    <button id="getArticles">最新</button>
-    <button id="getArticles" class="morning">朝刊</button>
-    <button id="getArticles" class="evening">夕刊</button>
-    <button id="nextArticle">次へ</button>
-    <div id="articles"></div>
+    <div class="bar">
+      <h2>記事一覧</h2>
+      <script src="articles.js"></script>
+      <button id="getArticles">最新</button>
+      <button id="getArticles" class="morning">朝刊</button>
+      <button id="getArticles" class="evening">夕刊</button>
+      <button id="nextArticle">次へ</button>
+    </div>
+    <div id="articles" class="articles"></div>
   </body>
 </html>
