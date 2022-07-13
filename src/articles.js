@@ -20,6 +20,7 @@ const createArticlesList = doc => {
 		if (!articleTitle) continue;
 		let article = {};
 		article.href = rawArticle.href;
+		article.id = new URLSearchParams(rawArticle.href).get('ng');
 		article.title = articleTitle.substr(0, 16);
 		articleList.push(article);
 	}
@@ -38,7 +39,7 @@ const createHtml = articleList => {
 	let html = '';
 	for (let i = 0; i < articleList.length; i++) {
 		const article = articleList[i];
-		html += `<a href=${article.href}>${article.title.substr(0, 16)}</a><br>`;
+		html += `<a id="${article.id}" href=${article.href}>${article.title.substr(0, 16)}</a><br>`;
 	}
 	return html;
 };
@@ -53,8 +54,7 @@ const insertMark = id => {
 		.getElementsByTagName('a');
 	for (let i = 0; i < articlesHtml.length; i++) {
 		const articleHtml = articlesHtml[i];
-		const href = new URLSearchParams(articleHtml.href);
-		const ng = href.get('ng');
+		const ng = articleHtml.id;
 		if (ng === id) {
 			articleHtml.insertAdjacentHTML('beforebegin', '<a id="marked">=></a>');
 			return;
@@ -94,9 +94,7 @@ const transitUrl = target => {
 	const url = host + path;
 	removeMark();
 	transition(url);
-	const params = new URLSearchParams(url);
-	id = params.get('ng');
-	insertMark(id);
+	insertMark(target.id);
 };
 
 const removeArtilces = () => {
