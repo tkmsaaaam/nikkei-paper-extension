@@ -39,7 +39,10 @@ const createHtml = articleList => {
 	let html = '';
 	for (let i = 0; i < articleList.length; i++) {
 		const article = articleList[i];
-		html += `<a id="${article.id}" href=${article.href}>${article.title.substr(0, 16)}</a><br>`;
+		html += `<a id="${article.id}" href=${article.href}>${article.title.substr(
+			0,
+			16
+		)}</a><br>`;
 	}
 	return html;
 };
