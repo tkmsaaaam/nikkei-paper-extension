@@ -21,7 +21,7 @@ const createArticlesList = doc => {
 		let article = {};
 		article.href = rawArticle.href;
 		article.id = new URLSearchParams(rawArticle.href).get('ng');
-		article.title = articleTitle.substr(0, 16);
+		article.title = articleTitle;
 		articleList.push(article);
 	}
 	return articleList;
