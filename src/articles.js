@@ -102,7 +102,10 @@ const transitUrl = target => {
 
 const removeArtilces = () => {
 	const artilcesHtml = document.getElementById('articles');
-	artilcesHtml.insertAdjacentHTML('afterend', '<div id="articles"></div>');
+	artilcesHtml.insertAdjacentHTML(
+		'afterend',
+		'<div id="articles" class="articles"></div>'
+	);
 	artilcesHtml.remove();
 };
 
