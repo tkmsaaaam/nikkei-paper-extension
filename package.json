@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "format": "prettier --write 'src/**/*.js'",
+    "release": "sh release.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
