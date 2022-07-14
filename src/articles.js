@@ -5,6 +5,24 @@ const createMark = () => {
 	});
 };
 
+const checkLatest = param => {
+	const now = new Date();
+	if ((now.getHours() > 14 || now.getHours() < 2) && param == 'evening')
+		return true;
+	if (!(now.getHours() > 14 || now.getHours() < 2) && param == 'morning')
+		return true;
+	return false;
+};
+
+const disableButtonLatest = () => {
+	var now = new Date();
+	if (now.getHours() > 14 || now.getHours() < 2) {
+		document.getElementsByClassName('evening')[0].disabled = true;
+	} else {
+		document.getElementsByClassName('morning')[0].disabled = true;
+	}
+};
+
 const disableButton = param => {
 	const buttons = document.getElementsByTagName('button');
 	for (let i = 0; i < buttons.length; i++) {
@@ -12,8 +30,11 @@ const disableButton = param => {
 	}
 	if (param !== '') {
 		document.getElementsByClassName(param)[0].disabled = true;
+		if (checkLatest(param))
+			document.getElementById('getArticles').disabled = true;
 	} else {
 		document.getElementById('getArticles').disabled = true;
+		disableButtonLatest();
 	}
 };
 
