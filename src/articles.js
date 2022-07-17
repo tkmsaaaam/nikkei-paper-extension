@@ -16,7 +16,7 @@ const checkLatest = param => {
 
 const disableButtonLatest = () => {
 	var now = new Date();
-	if (now.getHours() > 14 || now.getHours() < 2) {
+	if ((now.getHours() > 14 || now.getHours() < 2) && now.getDay() != 0) {
 		document.getElementsByClassName('evening')[0].disabled = true;
 	} else {
 		document.getElementsByClassName('morning')[0].disabled = true;
