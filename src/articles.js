@@ -132,6 +132,8 @@ const transitUrl = target => {
 	removeMark();
 	transition(url);
 	insertMark(target.id);
+	const targetHtml = document.getElementById(target.id);
+	targetHtml.scrollIntoView({ behavior: 'smooth' });
 };
 
 const removeArtilces = () => {
