@@ -123,8 +123,9 @@ const transition = url => {
 	});
 };
 
-const scrollIntoTargetedUrl = id => {
-	document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+const scrollIntoTargetedHtml = id => {
+	const height = document.getElementById(id).offsetTop - 85;
+	window.scroll({ top: height, behavior: 'smooth' });
 };
 
 const transitUrl = target => {
@@ -136,7 +137,7 @@ const transitUrl = target => {
 	removeMark();
 	transition(url);
 	insertMark(target.id);
-	scrollIntoTargetedUrl(target.id);
+	scrollIntoTargetedHtml(target.id);
 };
 
 const removeArtilces = () => {
