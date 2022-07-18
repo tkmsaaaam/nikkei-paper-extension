@@ -123,6 +123,10 @@ const transition = url => {
 	});
 };
 
+const scrollIntoTargetedUrl = id => {
+	document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+};
+
 const transitUrl = target => {
 	const rawHref = target.href;
 	if (!rawHref) return;
@@ -132,8 +136,7 @@ const transitUrl = target => {
 	removeMark();
 	transition(url);
 	insertMark(target.id);
-	const targetHtml = document.getElementById(target.id);
-	targetHtml.scrollIntoView({ behavior: 'smooth' });
+	scrollIntoTargetedUrl(target.id);
 };
 
 const removeArtilces = () => {
