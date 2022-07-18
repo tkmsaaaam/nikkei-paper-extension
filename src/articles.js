@@ -142,6 +142,7 @@ const transitUrl = target => {
 
 const removeArtilces = () => {
 	const artilcesHtml = document.getElementById('articles');
+	if (artilcesHtml.innerHTML == '') return;
 	artilcesHtml.insertAdjacentHTML(
 		'afterend',
 		'<div id="articles" class="articles"></div>'
