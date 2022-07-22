@@ -55,6 +55,8 @@ const createArticlesList = doc => {
 		article.href = rawArticle.href;
 		article.id = new URLSearchParams(rawArticle.href).get('ng');
 		article.title = articleTitle;
+		if (article.href == null || article.id == null || article.title == null)
+			continue;
 		articleList.push(article);
 	}
 	return articleList;
