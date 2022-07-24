@@ -7,7 +7,7 @@ const createMark = () => {
 
 const checkLatest = param => {
 	const now = new Date();
-	if ((now.getHours() > 14 || now.getHours() < 2) && param == 'evening')
+	if ((now.getHours() > 14 || now.getHours() < 2) && now.getDay() != 0)
 		return true;
 	if (!(now.getHours() > 14 || now.getHours() < 2) && param == 'morning')
 		return true;
