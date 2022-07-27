@@ -84,8 +84,10 @@ const insertMark = id => {
 		const articleHtml = articlesHtml[i];
 		const ng = articleHtml.id;
 		if (ng === id) {
-			articleHtml.insertAdjacentHTML('beforebegin', '<a id="marked">=></a>');
-			return;
+			return articleHtml.insertAdjacentHTML(
+				'beforebegin',
+				'<a id="marked">=></a>'
+			);
 		}
 	}
 };
