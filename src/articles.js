@@ -1,3 +1,5 @@
+const host = 'https://www.nikkei.com';
+
 const createMark = () => {
 	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
 		const params = new URLSearchParams(tabs[0].url);
@@ -52,7 +54,7 @@ const createArticlesList = doc => {
 };
 
 const getArticles = async param => {
-	const url = `https://www.nikkei.com/paper/` + param;
+	const url = host + `/paper/` + param;
 	const res = await fetch(url).then(response => response.text());
 	const parser = new DOMParser();
 	const doc = parser.parseFromString(res, 'text/html');
@@ -124,7 +126,6 @@ const scrollIntoTargetedHtml = id => {
 const transitUrl = target => {
 	const rawHref = target.href;
 	if (!rawHref) return;
-	const host = 'https://www.nikkei.com';
 	const path = rawHref.substr(rawHref.indexOf('/paper/article/'));
 	const url = host + path;
 	removeMark();
@@ -177,7 +178,7 @@ const manageClick = () => {
 
 const checkCurrentPage = () => {
 	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-		const articlesUrl = 'https://www.nikkei.com/paper/';
+		const articlesUrl = host + '/paper/';
 		const url = tabs[0].url;
 		if (!url.startsWith(articlesUrl)) {
 			return;
