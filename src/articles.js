@@ -183,8 +183,7 @@ const checkCurrentPage = () => {
 		if (!url.startsWith(articlesUrl)) {
 			return;
 		} else {
-			const param = url.replace(articlesUrl, '').substr(0, 7);
-			renderArticles(param);
+			renderArticles(url.replace(articlesUrl, '').substr(0, 7));
 		}
 	});
 };
