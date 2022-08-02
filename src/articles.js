@@ -107,7 +107,7 @@ const transition = url => {
 					target: { tabId },
 					func: () => {
 						window.scroll({
-							top: 300,
+							top: 250,
 							behavior: 'smooth',
 						});
 					},
