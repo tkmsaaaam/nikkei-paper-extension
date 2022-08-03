@@ -154,9 +154,15 @@ const renderArticles = async param => {
 
 const transitNextArticle = () => {
 	const currentArticle = document.getElementById('marked');
-	if (!currentArticle) renderArticles('');
-	const nextArticle =
-		currentArticle.nextElementSibling.nextElementSibling.nextElementSibling;
+	var nextArticle;
+	if (currentArticle) {
+		nextArticle =
+			currentArticle.nextElementSibling.nextElementSibling.nextElementSibling;
+	} else {
+		nextArticle = document
+			.getElementById('articles')
+			.getElementsByTagName('a')[0];
+	}
 	transitUrl(nextArticle);
 };
 
