@@ -87,7 +87,7 @@ const insertMark = id => {
 		if (ng === id) {
 			return articleHtml.insertAdjacentHTML(
 				'beforebegin',
-				'<a id="marked">=></a>'
+				'<strong id="marked">=></strong>'
 			);
 		}
 	}
