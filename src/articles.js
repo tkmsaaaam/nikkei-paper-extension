@@ -73,10 +73,6 @@ const createHtml = articleList => {
 	return html;
 };
 
-const insertHtml = html => {
-	document.getElementById('articles').insertAdjacentHTML('afterbegin', html);
-};
-
 const insertMark = id => {
 	const articlesHtml = document
 		.getElementById('articles')
@@ -148,7 +144,7 @@ const renderArticles = async param => {
 	const articleList = await getArticles(param);
 	const html = createHtml(articleList);
 	document.getElementById('nextArticle').disabled = false;
-	insertHtml(html);
+	document.getElementById('articles').insertAdjacentHTML('afterbegin', html);
 	createMark();
 };
 
