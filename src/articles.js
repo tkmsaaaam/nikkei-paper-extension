@@ -114,7 +114,11 @@ const transition = url => {
 };
 
 const scrollIntoTargetedHtml = id => {
-	const height = document.getElementById(id).offsetTop - 85;
+	const articleHtml = document.getElementById(id);
+	var height = 0;
+	if (articleHtml) {
+		height = articleHtml.offsetTop - 85;
+	}
 	window.scroll({ top: height, behavior: 'smooth' });
 };
 
