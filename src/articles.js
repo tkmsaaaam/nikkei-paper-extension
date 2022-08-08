@@ -200,7 +200,6 @@ const checkCurrentPage = () => {
 		checkCurrentPage();
 		return;
 	} catch (e) {
-		console.log(e);
-		alert(e);
+		console.log(`Error occured(nikkei-paper-extension): ${e}`);
 	}
 })();
