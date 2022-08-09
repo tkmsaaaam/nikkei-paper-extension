@@ -2,9 +2,11 @@ const host = 'https://www.nikkei.com';
 
 const createMark = () => {
 	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-		const params = new URLSearchParams(tabs[0].url);
-		insertMark(params.get('ng'));
-		scrollIntoTargetedHtml(params.get('ng'));
+		const param = new URLSearchParams(tabs[0].url).get('ng');
+		if (param) {
+			insertMark(param);
+			scrollIntoTargetedHtml(param);
+		}
 	});
 };
 
