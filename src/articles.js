@@ -35,8 +35,8 @@ const createArticlesList = doc => {
 	const articleList = [];
 	const articles = doc.getElementsByClassName('cmn-article_title');
 	for (let l = 0; l < articles.length; l++) {
-		const articlesElement = articles[l];
-		const rawArticle = articlesElement
+		const articleElement = articles[l];
+		const rawArticle = articleElement
 			.getElementsByTagName('span')[0]
 			.getElementsByTagName('a')[0];
 		if (!rawArticle) continue;
@@ -117,7 +117,7 @@ const transition = url => {
 
 const scrollIntoTargetedHtml = id => {
 	const articleHtml = document.getElementById(id);
-	var height = 0;
+	let height = 0;
 	if (articleHtml) {
 		height = articleHtml.offsetTop - 85;
 	}
@@ -135,14 +135,14 @@ const transitUrl = target => {
 	scrollIntoTargetedHtml(target.id);
 };
 
-const removeArtilces = () => {
-	const artilcesHtml = document.getElementById('articles');
-	if (artilcesHtml.innerHTML == '') return;
-	artilcesHtml.insertAdjacentHTML(
+const removeArticles = () => {
+	const articlesHtml = document.getElementById('articles');
+	if (articlesHtml.innerHTML == '') return;
+	articlesHtml.insertAdjacentHTML(
 		'afterend',
 		'<div id="articles" class="articles"></div>'
 	);
-	artilcesHtml.remove();
+	articlesHtml.remove();
 };
 
 const renderArticles = async param => {
@@ -156,7 +156,7 @@ const renderArticles = async param => {
 
 const transitNextArticle = () => {
 	const currentArticle = document.getElementById('marked');
-	var nextArticle;
+	let nextArticle;
 	if (currentArticle) {
 		nextArticle =
 			currentArticle.nextElementSibling.nextElementSibling.nextElementSibling;
@@ -174,7 +174,7 @@ const manageClick = () => {
 		if (e.target.id === 'getArticles') {
 			let param = '';
 			if (e.target.className) param = e.target.className;
-			removeArtilces();
+			removeArticles();
 			renderArticles(param);
 		} else if (e.target.id === 'nextArticle') {
 			transitNextArticle();
@@ -202,6 +202,6 @@ const checkCurrentPage = () => {
 		checkCurrentPage();
 		return;
 	} catch (e) {
-		console.log(`Error occured(nikkei-paper-extension): ${e}`);
+		console.log(`Error occurred(nikkei-paper-extension): ${e}`);
 	}
 })();
