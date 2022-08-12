@@ -180,11 +180,8 @@ const checkCurrentPage = () => {
 	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
 		const articlesUrl = host + '/paper/';
 		const url = tabs[0].url;
-		if (!url.startsWith(articlesUrl)) {
-			return;
-		} else {
+		if (url.startsWith(articlesUrl))
 			renderArticles(url.replace(articlesUrl, '').substr(0, 7));
-		}
 	});
 };
 
