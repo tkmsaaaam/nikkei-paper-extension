@@ -164,13 +164,13 @@ const transitNextArticle = () => {
 };
 
 const manageClick = () => {
-	document.addEventListener('click', e => {
+	document.addEventListener('click', async e => {
 		e.preventDefault();
 		if (e.target.id === 'getArticles') {
 			let param = '';
 			if (e.target.className) param = e.target.className;
 			removeArticles();
-			renderArticles(param);
+			await renderArticles(param);
 		} else if (e.target.id === 'nextArticle') {
 			transitNextArticle();
 		} else {
@@ -180,11 +180,11 @@ const manageClick = () => {
 };
 
 const checkCurrentPage = () => {
-	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+	chrome.tabs.query({ active: true, lastFocusedWindow: true }, async tabs => {
 		const articlesUrl = host + '/paper/';
 		const url = tabs[0].url;
 		if (url.startsWith(articlesUrl))
-			renderArticles(url.replace(articlesUrl, '').substr(0, 7));
+			await renderArticles(url.replace(articlesUrl, '').substr(0, 7));
 	});
 };
 
