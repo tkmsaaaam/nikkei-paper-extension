@@ -1,4 +1,6 @@
 const host = 'https://www.nikkei.com';
+const MORNING = 'morning';
+const EVENING = 'evening';
 
 const createMark = () => {
 	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
@@ -10,11 +12,11 @@ const createMark = () => {
 	});
 };
 
-const checkLatest = () => {
+const getLatest = () => {
 	const now = new Date();
 	if ((now.getHours() > 14 || now.getHours() < 2) && now.getDay() != 0)
-		return 'evening';
-	return 'morning';
+		return EVENING;
+	return MORNING;
 };
 
 const disableButton = param => {
@@ -24,10 +26,10 @@ const disableButton = param => {
 	}
 	if (param !== '') {
 		document.getElementsByClassName(param)[0].disabled = true;
-		if (param == checkLatest()) buttons[0].disabled = true;
+		if (param == getLatest()) buttons[0].disabled = true;
 	} else {
 		buttons[0].disabled = true;
-		document.getElementsByClassName(checkLatest())[0].disabled = true;
+		document.getElementsByClassName(getLatest())[0].disabled = true;
 	}
 };
 
@@ -139,7 +141,7 @@ const removeArticles = () => {
 };
 
 const renderArticles = async param => {
-	if (!(param == 'morning' || param == 'evening' || param == '')) return;
+	if (!(param == MORNING || param == EVENING || param == '')) return;
 	const articleList = await getArticles(param);
 	const html = createHtml(articleList);
 	document.getElementById('nextArticle').disabled = false;
