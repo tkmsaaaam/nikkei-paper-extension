@@ -14,7 +14,7 @@ const createMark = () => {
 
 const getLatest = () => {
 	const now = new Date();
-	if ((now.getHours() > 14 || now.getHours() < 2) && now.getDay() != 0)
+	if ((now.getHours() > 14 || now.getHours() < 2) && now.getDay() !== 0)
 		return EVENING;
 	return MORNING;
 };
@@ -26,7 +26,7 @@ const disableButton = param => {
 	}
 	if (param !== '') {
 		document.getElementsByClassName(param)[0].disabled = true;
-		if (param == getLatest()) buttons[0].disabled = true;
+		if (param === getLatest()) buttons[0].disabled = true;
 	} else {
 		buttons[0].disabled = true;
 		document.getElementsByClassName(getLatest())[0].disabled = true;
@@ -42,14 +42,12 @@ const createArticlesList = doc => {
 			.getElementsByTagName('span')[0]
 			.getElementsByTagName('a')[0];
 		if (!rawArticle) continue;
-		const articleTitle = rawArticle
-			.getElementsByTagName('span')[0]
-			.getElementsByTagName('span')[0].textContent;
-		if (!articleTitle) continue;
 		let article = {};
 		article.href = rawArticle.href;
 		article.id = new URLSearchParams(rawArticle.href).get('ng');
-		article.title = articleTitle;
+		article.title = rawArticle
+			.getElementsByTagName('span')[0]
+			.getElementsByTagName('span')[0].textContent;
 		if (!article.href || !article.id || !article.title) continue;
 		articleList.push(article);
 	}
@@ -69,10 +67,9 @@ const createHtml = articleList => {
 	let html = '';
 	for (let i = 0; i < articleList.length; i++) {
 		const article = articleList[i];
-		html += `<a id="${article.id}" href=${article.href}>${article.title.substr(
-			0,
-			16
-		)}</a><br>`;
+		html += `<a id="${article.id}" href=${
+			article.href
+		}>${article.title.substring(0, 16)}</a><br>`;
 	}
 	return html;
 };
@@ -100,7 +97,7 @@ const removeMark = () => {
 
 const transition = url => {
 	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-		chrome.tabs.update(tabs[0].id, { url: url });
+		chrome.tabs.update(tabs[0].id, { url: url }, () => {});
 		chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
 			if (changeInfo.status === 'complete') {
 				chrome.tabs.sendMessage(tabId, { message: 'scroll' });
@@ -122,7 +119,7 @@ const scrollIntoTargetedHtml = id => {
 const transitUrl = target => {
 	const rawHref = target.href;
 	if (!rawHref) return;
-	const path = rawHref.substr(rawHref.indexOf('/paper/article/'));
+	const path = rawHref.substring(rawHref.indexOf('/paper/article/'));
 	const url = host + path;
 	removeMark();
 	transition(url);
@@ -132,7 +129,7 @@ const transitUrl = target => {
 
 const removeArticles = () => {
 	const articlesHtml = document.getElementById('articles');
-	if (articlesHtml.innerHTML == '') return;
+	if (articlesHtml.innerHTML === '') return;
 	articlesHtml.insertAdjacentHTML(
 		'afterend',
 		'<div id="articles" class="articles"></div>'
@@ -141,7 +138,7 @@ const removeArticles = () => {
 };
 
 const renderArticles = async param => {
-	if (!(param == MORNING || param == EVENING || param == '')) return;
+	if (!(param === MORNING || param === EVENING || param === '')) return;
 	const articleList = await getArticles(param);
 	const html = createHtml(articleList);
 	document.getElementById('nextArticle').disabled = false;
@@ -184,7 +181,7 @@ const checkCurrentPage = () => {
 		const articlesUrl = host + '/paper/';
 		const url = tabs[0].url;
 		if (url.startsWith(articlesUrl))
-			await renderArticles(url.replace(articlesUrl, '').substr(0, 7));
+			await renderArticles(url.replace(articlesUrl, '').substring(0, 7));
 	});
 };
 
@@ -192,7 +189,6 @@ const checkCurrentPage = () => {
 	try {
 		manageClick();
 		checkCurrentPage();
-		return;
 	} catch (e) {
 		console.log(`Error occurred(nikkei-paper-extension): ${e}`);
 	}
