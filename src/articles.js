@@ -110,8 +110,9 @@ const transition = url => {
 const scrollIntoTargetedHtml = id => {
 	const articleHtml = document.getElementById(id);
 	let height = 0;
+	const headerHeight = 85;
 	if (articleHtml) {
-		height = articleHtml.offsetTop - 85;
+		height = articleHtml.offsetTop - headerHeight;
 	}
 	window.scroll({ top: height, behavior: 'smooth' });
 };
