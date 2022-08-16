@@ -33,36 +33,6 @@ const disableButton = param => {
 	}
 };
 
-const createArticlesList = doc => {
-	const articleList = [];
-	const articles = doc.getElementsByClassName('cmn-article_title');
-	for (let l = 0; l < articles.length; l++) {
-		const articleElement = articles[l];
-		const rawArticle = articleElement
-			.getElementsByTagName('span')[0]
-			.getElementsByTagName('a')[0];
-		if (!rawArticle) continue;
-		let article = {};
-		article.href = rawArticle.href;
-		article.id = new URLSearchParams(rawArticle.href).get('ng');
-		article.title = rawArticle
-			.getElementsByTagName('span')[0]
-			.getElementsByTagName('span')[0].textContent;
-		if (!article.href || !article.id || !article.title) continue;
-		articleList.push(article);
-	}
-	return articleList;
-};
-
-const getArticles = async param => {
-	const url = host + `/paper/` + param;
-	const res = await fetch(url).then(response => response.text());
-	const parser = new DOMParser();
-	const doc = parser.parseFromString(res, 'text/html');
-	disableButton(param);
-	return createArticlesList(doc);
-};
-
 const createHtml = articleList => {
 	let html = '';
 	for (let i = 0; i < articleList.length; i++) {
@@ -75,19 +45,9 @@ const createHtml = articleList => {
 };
 
 const insertMark = id => {
-	const articlesHtml = document
-		.getElementById('articles')
-		.getElementsByTagName('a');
-	for (let i = 0; i < articlesHtml.length; i++) {
-		const articleHtml = articlesHtml[i];
-		const ng = articleHtml.id;
-		if (ng === id) {
-			return articleHtml.insertAdjacentHTML(
-				'beforebegin',
-				'<strong id="marked">=></strong>'
-			);
-		}
-	}
+	document
+		.getElementById(id)
+		.insertAdjacentHTML('beforebegin', '<strong id="marked">=></strong>');
 };
 
 const removeMark = () => {
@@ -137,13 +97,23 @@ const removeArticles = () => {
 	articlesHtml.remove();
 };
 
-const renderArticles = async param => {
+const renderArticles = param => {
 	if (!(param === MORNING || param === EVENING || param === '')) return;
-	const articleList = await getArticles(param);
-	const html = createHtml(articleList);
-	document.getElementById('nextArticle').disabled = false;
-	document.getElementById('articles').insertAdjacentHTML('afterbegin', html);
-	createMark();
+	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+		chrome.tabs.sendMessage(
+			tabs[0].id,
+			{ message: 'getArticles', options: param },
+			response => {
+				const html = createHtml(response);
+				document.getElementById('nextArticle').disabled = false;
+				disableButton(param);
+				document
+					.getElementById('articles')
+					.insertAdjacentHTML('afterbegin', html);
+				createMark();
+			}
+		);
+	});
 };
 
 const transitNextArticle = () => {
@@ -178,10 +148,26 @@ const manageClick = () => {
 
 const checkCurrentPage = () => {
 	chrome.tabs.query({ active: true, lastFocusedWindow: true }, async tabs => {
+		const currentUrl = tabs[0].url;
 		const articlesUrl = host + '/paper/';
-		const url = tabs[0].url;
-		if (url.startsWith(articlesUrl))
-			await renderArticles(url.replace(articlesUrl, '').substring(0, 7));
+		if (
+			currentUrl === articlesUrl ||
+			currentUrl === articlesUrl + MORNING ||
+			currentUrl === articlesUrl + EVENING
+		) {
+			chrome.tabs.sendMessage(
+				tabs[0].id,
+				{ message: 'getArticles', options: 'current' },
+				response => {
+					const html = createHtml(response);
+					document.getElementById('nextArticle').disabled = false;
+					disableButton(tabs[0].url.replace(articlesUrl, '').substring(0, 7));
+					document
+						.getElementById('articles')
+						.insertAdjacentHTML('afterbegin', html);
+				}
+			);
+		}
 	});
 };
 
