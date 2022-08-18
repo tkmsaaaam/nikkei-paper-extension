@@ -167,7 +167,7 @@ const checkCurrentPage = () => {
 						.insertAdjacentHTML('afterbegin', html);
 				}
 			);
-		} else {
+		} else if (!currentUrl.startsWith(host)) {
 			const buttons = document.getElementsByTagName('button');
 			for (let i = 0; i < buttons.length; i++) {
 				buttons[i].disabled = true;
