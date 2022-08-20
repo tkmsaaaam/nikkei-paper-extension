@@ -1,4 +1,4 @@
-const host = 'https://www.nikkei.com';
+const HOST = 'https://www.nikkei.com';
 const MORNING = 'morning';
 const EVENING = 'evening';
 
@@ -80,7 +80,7 @@ const transitUrl = target => {
 	const rawHref = target.href;
 	if (!rawHref) return;
 	const path = rawHref.substring(rawHref.indexOf('/paper/article/'));
-	const url = host + path;
+	const url = HOST + path;
 	removeMark();
 	transition(url);
 	insertMark(target.id);
@@ -149,7 +149,7 @@ const manageClick = () => {
 const checkCurrentPage = () => {
 	chrome.tabs.query({ active: true, lastFocusedWindow: true }, async tabs => {
 		const currentUrl = tabs[0].url;
-		const articlesUrl = host + '/paper/';
+		const articlesUrl = HOST + '/paper/';
 		if (
 			currentUrl === articlesUrl ||
 			currentUrl === articlesUrl + MORNING ||
@@ -167,7 +167,7 @@ const checkCurrentPage = () => {
 						.insertAdjacentHTML('afterbegin', html);
 				}
 			);
-		} else if (!currentUrl.startsWith(host)) {
+		} else if (!currentUrl.startsWith(HOST)) {
 			const buttons = document.getElementsByTagName('button');
 			for (let i = 0; i < buttons.length; i++) {
 				buttons[i].disabled = true;
