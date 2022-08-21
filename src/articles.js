@@ -6,8 +6,12 @@ const createMark = () => {
 	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
 		const param = new URLSearchParams(tabs[0].url).get('ng');
 		if (param) {
-			insertMark(param);
-			scrollIntoTargetedHtml(param);
+			try {
+				insertMark(param);
+				scrollIntoTargetedHtml(param);
+			} catch (e) {
+				window.scroll({ top: 0, behavior: 'smooth' });
+			}
 		}
 	});
 };
