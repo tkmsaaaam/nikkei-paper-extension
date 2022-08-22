@@ -11,6 +11,7 @@ const createMark = () => {
 				scrollIntoTargetedHtml(param);
 			} catch (e) {
 				window.scroll({ top: 0, behavior: 'smooth' });
+				console.log(e);
 			}
 		}
 	});
