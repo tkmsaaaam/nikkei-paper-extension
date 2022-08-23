@@ -1,6 +1,7 @@
 const HOST = 'https://www.nikkei.com';
 const MORNING = 'morning';
 const EVENING = 'evening';
+const buttons = document.getElementsByTagName('button');
 
 const createMark = () => {
 	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
@@ -25,7 +26,6 @@ const getLatest = () => {
 };
 
 const disableButton = param => {
-	const buttons = document.getElementsByTagName('button');
 	for (let i = 0; i < buttons.length; i++) {
 		buttons[i].disabled = false;
 	}
@@ -173,7 +173,6 @@ const checkCurrentPage = () => {
 				}
 			);
 		} else if (!currentUrl.startsWith(HOST)) {
-			const buttons = document.getElementsByTagName('button');
 			for (let i = 0; i < buttons.length; i++) {
 				buttons[i].disabled = true;
 			}
