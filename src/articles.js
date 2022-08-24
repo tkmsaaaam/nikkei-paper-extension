@@ -173,9 +173,7 @@ const checkCurrentPage = () => {
 				}
 			);
 		} else if (!currentUrl.startsWith(HOST)) {
-			for (let i = 0; i < buttons.length; i++) {
-				buttons[i].disabled = true;
-			}
+			window.close();
 		}
 	});
 };
