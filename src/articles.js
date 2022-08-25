@@ -157,8 +157,8 @@ const checkCurrentPage = () => {
 		const articlesUrl = HOST + '/paper/';
 		if (
 			currentUrl === articlesUrl ||
-			currentUrl === articlesUrl + MORNING ||
-			currentUrl === articlesUrl + EVENING
+			currentUrl.startsWith(articlesUrl + MORNING) ||
+			currentUrl.startsWith(articlesUrl + EVENING)
 		) {
 			chrome.tabs.sendMessage(
 				tabs[0].id,
