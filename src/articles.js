@@ -55,11 +55,6 @@ const insertMark = id => {
 		.insertAdjacentHTML('beforebegin', '<strong id="marked">=></strong>');
 };
 
-const removeMark = () => {
-	const mark = document.getElementById('marked');
-	if (mark) mark.remove();
-};
-
 const transition = url => {
 	chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
 		chrome.tabs.update(tabs[0].id, { url: url }, () => {});
@@ -86,7 +81,8 @@ const transitUrl = target => {
 	if (!rawHref) return;
 	const path = rawHref.substring(rawHref.indexOf('/paper/article/'));
 	const url = HOST + path;
-	removeMark();
+	const mark = document.getElementById('marked');
+	if (mark) mark.remove();
 	transition(url);
 	insertMark(target.id);
 	scrollIntoTargetedHtml(target.id);
