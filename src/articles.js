@@ -30,11 +30,11 @@ const disableButton = param => {
 		buttons[i].disabled = false;
 	}
 	if (param !== '') {
-		document.getElementsByClassName(param)[0].disabled = true;
+		document.getElementById(param).disabled = true;
 		if (param === getLatest()) buttons[0].disabled = true;
 	} else {
 		buttons[0].disabled = true;
-		document.getElementsByClassName(getLatest())[0].disabled = true;
+		document.getElementById(getLatest()).disabled = true;
 	}
 };
 
@@ -134,9 +134,9 @@ const transitNextArticle = () => {
 const manageClick = () => {
 	document.addEventListener('click', async e => {
 		e.preventDefault();
-		if (e.target.id === 'getArticles') {
+		if (e.target.className === 'getArticles') {
 			let param = '';
-			if (e.target.className) param = e.target.className;
+			if (e.target.id) param = e.target.id;
 			removeArticles();
 			await renderArticles(param);
 		} else if (e.target.id === 'nextArticle') {
