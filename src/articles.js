@@ -106,7 +106,7 @@ const renderArticles = param => {
 			{ message: 'getArticles', options: param },
 			response => {
 				const html = createHtml(response);
-				document.getElementById('nextArticle').disabled = false;
+				document.getElementsByClassName('nextArticle')[0].disabled = false;
 				disableButton(param);
 				document
 					.getElementById('articles')
@@ -139,7 +139,7 @@ const manageClick = () => {
 			if (e.target.id) param = e.target.id;
 			removeArticles();
 			await renderArticles(param);
-		} else if (e.target.id === 'nextArticle') {
+		} else if (e.target.className === 'nextArticle') {
 			transitNextArticle();
 		} else {
 			transitUrl(e.target);
@@ -161,7 +161,7 @@ const checkCurrentPage = () => {
 				{ message: 'getArticles', options: 'current' },
 				response => {
 					const html = createHtml(response);
-					document.getElementById('nextArticle').disabled = false;
+					document.getElementsByClassName('nextArticle')[0].disabled = false;
 					disableButton(tabs[0].url.replace(articlesUrl, '').substring(0, 7));
 					document
 						.getElementById('articles')
